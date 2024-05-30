@@ -51,8 +51,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
     public void draw(Graphics g) {
         if (running) {
-            g.setColor(Color.red);
-            g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
+            drawApple(g, appleX, appleY, UNIT_SIZE, UNIT_SIZE);
 
             for (int i = 0; i < bodyParts; i++) {
                 if (i == 0) {
@@ -63,7 +62,7 @@ public class GamePanel extends JPanel implements ActionListener {
                     // Gradient effect for the body
                     g.setColor(new Color(45, 180 - (i * 5), 0));
                     g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);
-                    
+
                     // Draw a border for each segment
                     g.setColor(Color.black);
                     g.drawRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);
@@ -76,6 +75,24 @@ public class GamePanel extends JPanel implements ActionListener {
         } else {
             gameOver(g);
         }
+    }
+
+    public void drawApple(Graphics g, int x, int y, int width, int height) {
+        Graphics2D g2d = (Graphics2D) g;
+
+        // Draw the apple body
+        g2d.setColor(Color.red);
+        g2d.fillOval(x, y, width, height);
+
+        // Draw the apple stem
+        g2d.setColor(new Color(139, 69, 19)); // Brown color for the stem
+        g2d.fillRect(x + width / 2 - 2, y - height / 4, 4, height / 4);
+
+        // Draw the apple leaf
+        g2d.setColor(Color.green);
+        int[] leafX = {x + width / 2, x + width / 2 + width / 4, x + width / 2};
+        int[] leafY = {y - height / 4, y - height / 2, y - height / 2};
+        g2d.fillPolygon(leafX, leafY, 3);
     }
 
     public void newApple() {
